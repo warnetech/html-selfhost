@@ -1,0 +1,20 @@
+# Runtime state — created on first boot, never committed.
+usb/data/*
+!usb/data/.gitkeep
+usb/data.smoke-backup/
+
+# A portable Node runtime dropped on the stick.
+usb/runtime/
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/
+
+# Nothing here needs npm, but guard against an accidental install.
+node_modules/
+package-lock.json

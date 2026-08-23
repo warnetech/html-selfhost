@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# The admin panel is not a public page. Search engines should ignore it, and
+# it also sends "noindex" on every response.
+Disallow: /__admin
