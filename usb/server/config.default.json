@@ -1,0 +1,43 @@
+{
+  "site": {
+    "root": "site",
+    "indexFile": "index.html",
+    "notFoundFile": "404.html",
+    "cleanUrls": true,
+    "directoryListing": false
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8080,
+    "adminPort": null,
+    "requestTimeoutMs": 30000,
+    "maxUploadBytes": 52428800,
+    "compress": true,
+    "behindProxy": false
+  },
+  "admin": {
+    "enabled": true,
+    "path": "/__admin",
+    "sessionHours": 12,
+    "lanOnly": false
+  },
+  "security": {
+    "forceHttps": false,
+    "hsts": false,
+    "loginMaxAttempts": 5,
+    "loginLockoutMinutes": 15,
+    "contentSecurityPolicy": "default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+  },
+  "ddns": {
+    "enabled": false,
+    "provider": "duckdns",
+    "intervalMinutes": 15,
+    "duckdns": { "domain": "", "token": "" },
+    "cloudflare": { "apiToken": "", "zoneId": "", "recordName": "", "proxied": false },
+    "generic": { "url": "" }
+  },
+  "logging": {
+    "accessLog": true,
+    "maxLogBytes": 5242880
+  }
+}

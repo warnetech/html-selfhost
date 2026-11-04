@@ -1,0 +1,106 @@
+/* Starter stylesheet. Edit or replace it entirely — nothing in the server
+   depends on this file. */
+
+:root {
+  --ink: #16181d;
+  --ink-soft: #5a6069;
+  --paper: #ffffff;
+  --paper-soft: #f4f5f7;
+  --line: #e2e5ea;
+  --accent: #146c3a;
+  --radius: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e8eaee;
+    --ink-soft: #9aa1ab;
+    --paper: #14161a;
+    --paper-soft: #1d2026;
+    --line: #2c3138;
+    --accent: #4ade80;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font: 17px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+main {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+h1 { font-size: 2.1rem; line-height: 1.15; letter-spacing: -.02em; margin: 0 0 .75rem; }
+h2 { font-size: 1.25rem; margin: 2rem 0 .6rem; letter-spacing: -.01em; }
+p { margin: 0 0 1rem; }
+ul, ol { margin: 0 0 1rem; padding-left: 1.3rem; }
+li { margin-bottom: .4rem; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .875em;
+  background: var(--paper-soft);
+  padding: .12em .38em;
+  border-radius: 4px;
+}
+
+.muted { color: var(--ink-soft); font-size: .93rem; }
+.lead { font-size: 1.15rem; color: var(--ink-soft); }
+
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  max-width: 42rem;
+  margin: 0 auto;
+}
+.logo { font-weight: 700; letter-spacing: -.02em; text-decoration: none; color: var(--ink); }
+.site-header nav { display: flex; gap: 1rem; margin-left: auto; }
+.site-header nav a { font-size: .93rem; color: var(--ink-soft); text-decoration: none; }
+.site-header nav a:hover { color: var(--accent); }
+
+.hero { padding-top: 1.5rem; }
+.hero h1 { font-size: 2.6rem; }
+
+.panel {
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.4rem;
+  margin-top: 2.5rem;
+}
+.panel h2 { margin-top: 0; }
+
+.button {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--paper);
+  padding: .55rem 1.1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 550;
+  font-size: .95rem;
+}
+.button:hover { filter: brightness(1.08); }
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 1.25rem;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: .88rem;
+}
+.site-footer p { margin: 0; }

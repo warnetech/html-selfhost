@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Self-Hosted Site</title>
+  <meta name="description" content="A website served from a USB stick on my own connection.">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="/">my&nbsp;site</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>It works.</h1>
+      <p class="lead">
+        This page is being served from a USB stick on your own hardware, behind your own
+        router. No hosting company, no monthly bill, no platform that can take it down.
+      </p>
+      <p>
+        <a class="button" href="/about">What is this?</a>
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Make it yours</h2>
+      <ol>
+        <li>Open the admin panel (the address was printed when the server started).</li>
+        <li>Sign in and change the generated password.</li>
+        <li>Edit <code>index.html</code> right in the browser, or upload your own files.</li>
+        <li>Follow <code>docs/03-going-online.md</code> to put it on the public internet.</li>
+      </ol>
+      <p class="muted">
+        Everything in the <code>site/</code> folder is published exactly as it sits on disk.
+        Drop in an existing static site and it will just work.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Served from a USB stick. <a href="/about">About this setup</a></p>
+  </footer>
+</body>
+</html>

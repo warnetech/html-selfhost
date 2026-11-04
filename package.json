@@ -1,0 +1,24 @@
+{
+  "name": "self-host-starter",
+  "version": "1.0.0",
+  "description": "A zero-dependency website host that runs from a USB stick behind a home router, with a browser-based remote admin panel.",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node usb/server/server.js",
+    "check": "node usb/server/server.js --check",
+    "test": "tools/smoke-test.sh"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "self-hosting",
+    "static-site",
+    "usb",
+    "home-server",
+    "zero-dependency"
+  ]
+}

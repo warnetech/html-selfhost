@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<title>Site Admin</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<!-- Sign in ------------------------------------------------------------ -->
+<div id="login-view" class="login-wrap" hidden>
+  <form id="login-form" class="card login-card" autocomplete="on">
+    <h1 class="login-title">Site Admin</h1>
+    <p class="login-sub">Sign in to manage your website.</p>
+    <label class="field">
+      <span>Username</span>
+      <input id="login-username" name="username" autocomplete="username" required autocapitalize="none" spellcheck="false">
+    </label>
+    <label class="field">
+      <span>Password</span>
+      <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+    </label>
+    <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+    <p id="login-error" class="alert alert-error" hidden></p>
+  </form>
+</div>
+
+<!-- Console ------------------------------------------------------------ -->
+<div id="app-view" hidden>
+  <header class="topbar">
+    <button id="menu-toggle" class="icon-btn only-mobile" type="button" aria-label="Toggle menu">☰</button>
+    <span class="brand">Site Admin</span>
+    <nav class="tabs" id="tabs">
+      <button class="tab" data-view="dashboard" type="button">Dashboard</button>
+      <button class="tab" data-view="files" type="button">Files</button>
+      <button class="tab" data-view="settings" type="button">Settings</button>
+      <button class="tab" data-view="logs" type="button">Logs</button>
+    </nav>
+    <span class="spacer"></span>
+    <a id="visit-site" class="btn btn-ghost" href="/" target="_blank" rel="noopener">View site ↗</a>
+    <span id="who" class="who"></span>
+    <button id="logout" class="btn btn-ghost" type="button">Sign out</button>
+  </header>
+
+  <p id="must-change" class="banner banner-warn" hidden>
+    You are still using the generated password. <button class="linkish" id="goto-password" type="button">Change it now</button>.
+  </p>
+
+  <main class="main">
+
+    <!-- Dashboard -->
+    <section class="view" id="view-dashboard" hidden>
+      <div class="grid" id="status-grid"></div>
+
+      <div class="card">
+        <h2>Reaching this site from the internet</h2>
+        <div id="reach-info" class="stack"></div>
+      </div>
+
+      <div class="card">
+        <h2>Dynamic DNS</h2>
+        <div id="ddns-info" class="stack"></div>
+        <button id="ddns-update" class="btn" type="button">Update DNS now</button>
+      </div>
+
+      <div class="card" id="problems-card" hidden>
+        <h2>Configuration warnings</h2>
+        <ul id="problems-list" class="plain-list"></ul>
+      </div>
+    </section>
+
+    <!-- Files -->
+    <section class="view files-layout" id="view-files" hidden>
+      <aside class="filepane">
+        <div class="filepane-actions">
+          <button id="new-file" class="btn btn-sm" type="button">New file</button>
+          <button id="new-folder" class="btn btn-sm" type="button">New folder</button>
+          <button id="upload-btn" class="btn btn-sm" type="button">Upload</button>
+          <button id="refresh-tree" class="btn btn-sm btn-ghost" type="button" aria-label="Refresh">⟳</button>
+          <input id="upload-input" type="file" multiple hidden>
+        </div>
+        <div id="tree" class="tree" tabindex="0"></div>
+        <p id="tree-summary" class="muted small"></p>
+      </aside>
+
+      <div class="editorpane">
+        <div class="editor-head">
+          <span id="editor-path" class="editor-path">No file open</span>
+          <span class="spacer"></span>
+          <span id="editor-dirty" class="pill pill-warn" hidden>Unsaved</span>
+          <button id="editor-preview" class="btn btn-sm btn-ghost" type="button" hidden>Preview ↗</button>
+          <button id="editor-save" class="btn btn-sm btn-primary" type="button" disabled>Save</button>
+        </div>
+        <div class="editor-body">
+          <textarea id="editor" class="editor" spellcheck="false" autocapitalize="none"
+                    autocorrect="off" wrap="off" placeholder="Select a file on the left to edit it." disabled></textarea>
+          <div id="editor-empty" class="editor-empty">
+            <p>Pick a file from the tree to edit it here.</p>
+            <p class="muted small">HTML, CSS, JS, JSON, Markdown and text files open in the editor. Images and other binaries can be uploaded, downloaded and deleted.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section class="view" id="view-settings" hidden>
+      <form id="settings-form" class="card">
+        <h2>Website</h2>
+        <label class="field"><span>Site folder (relative to the USB root)</span>
+          <input name="site.root" required>
+          <small>Point this at the router's USB share to serve files straight off the modem.</small>
+        </label>
+        <label class="field"><span>Index file</span><input name="site.indexFile" required></label>
+        <label class="field"><span>404 page</span><input name="site.notFoundFile" required></label>
+        <label class="check"><input type="checkbox" name="site.cleanUrls"> <span>Clean URLs (<code>/about</code> serves <code>about.html</code>)</span></label>
+        <label class="check"><input type="checkbox" name="site.directoryListing"> <span>Show a file index for folders with no index page</span></label>
+
+        <h2>Server</h2>
+        <div class="row">
+          <label class="field"><span>Website port</span><input name="server.port" type="number" min="1" max="65535" required></label>
+          <label class="field"><span>Separate admin port (blank = same port)</span><input name="server.adminPort" type="number" min="1" max="65535"></label>
+        </div>
+        <label class="field"><span>Bind address</span><input name="server.host" required>
+          <small><code>0.0.0.0</code> listens on every interface. Use <code>127.0.0.1</code> to accept only local connections.</small>
+        </label>
+        <label class="field"><span>Maximum upload size (bytes)</span><input name="server.maxUploadBytes" type="number" min="1024" required></label>
+        <label class="check"><input type="checkbox" name="server.compress"> <span>Compress text responses with gzip</span></label>
+        <label class="check"><input type="checkbox" name="server.behindProxy"> <span>Behind a reverse proxy or tunnel (trust <code>X-Forwarded-For</code>)</span></label>
+
+        <h2>Admin panel</h2>
+        <label class="field"><span>Admin URL path</span><input name="admin.path" required></label>
+        <label class="field"><span>Session length (hours)</span><input name="admin.sessionHours" type="number" min="1" max="720" required></label>
+        <label class="check"><input type="checkbox" name="admin.lanOnly"> <span>Local network only — block admin access from the internet</span></label>
+
+        <h2>Security</h2>
+        <label class="check"><input type="checkbox" name="security.forceHttps"> <span>Redirect HTTP to HTTPS (only with a proxy or tunnel terminating TLS)</span></label>
+        <label class="check"><input type="checkbox" name="security.hsts"> <span>Send HSTS header</span></label>
+        <div class="row">
+          <label class="field"><span>Failed logins before lockout</span><input name="security.loginMaxAttempts" type="number" min="1" max="100" required></label>
+          <label class="field"><span>Lockout minutes</span><input name="security.loginLockoutMinutes" type="number" min="1" max="1440" required></label>
+        </div>
+        <label class="field"><span>Content-Security-Policy for the public site</span><textarea name="security.contentSecurityPolicy" rows="3"></textarea></label>
+
+        <h2>Dynamic DNS</h2>
+        <label class="check"><input type="checkbox" name="ddns.enabled"> <span>Keep a domain name pointed at this connection</span></label>
+        <label class="field"><span>Provider</span>
+          <select name="ddns.provider">
+            <option value="duckdns">DuckDNS</option>
+            <option value="cloudflare">Cloudflare</option>
+            <option value="generic">Generic update URL</option>
+          </select>
+        </label>
+        <label class="field"><span>Check every (minutes)</span><input name="ddns.intervalMinutes" type="number" min="5" max="1440"></label>
+        <fieldset class="subform" data-provider="duckdns">
+          <legend>DuckDNS</legend>
+          <label class="field"><span>Subdomain</span><input name="ddns.duckdns.domain" placeholder="mysite"></label>
+          <label class="field"><span>Token</span><input name="ddns.duckdns.token" type="password" autocomplete="off"></label>
+        </fieldset>
+        <fieldset class="subform" data-provider="cloudflare">
+          <legend>Cloudflare</legend>
+          <label class="field"><span>API token</span><input name="ddns.cloudflare.apiToken" type="password" autocomplete="off"></label>
+          <label class="field"><span>Zone ID</span><input name="ddns.cloudflare.zoneId"></label>
+          <label class="field"><span>Record name</span><input name="ddns.cloudflare.recordName" placeholder="www.example.com"></label>
+          <label class="check"><input type="checkbox" name="ddns.cloudflare.proxied"> <span>Proxy through Cloudflare</span></label>
+        </fieldset>
+        <fieldset class="subform" data-provider="generic">
+          <legend>Generic</legend>
+          <label class="field"><span>Update URL (<code>{ip}</code> is replaced with the current address)</span>
+            <input name="ddns.generic.url" placeholder="https://example.com/nic/update?hostname=me&amp;myip={ip}"></label>
+        </fieldset>
+
+        <h2>Logging</h2>
+        <label class="check"><input type="checkbox" name="logging.accessLog"> <span>Write an access log</span></label>
+        <label class="field"><span>Rotate log at (bytes)</span><input name="logging.maxLogBytes" type="number" min="65536" required></label>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Save settings</button>
+          <button class="btn btn-ghost" id="settings-reload" type="button">Discard changes</button>
+        </div>
+        <p id="settings-msg" class="alert" hidden></p>
+      </form>
+
+      <form id="password-form" class="card">
+        <h2>Change admin password</h2>
+        <label class="field"><span>Current password</span>
+          <input name="current" type="password" autocomplete="current-password" required></label>
+        <label class="field"><span>New password</span>
+          <input name="next" type="password" autocomplete="new-password" required minlength="12">
+          <small>At least 12 characters. Changing it signs out every device, including this one.</small></label>
+        <label class="field"><span>Confirm new password</span>
+          <input name="confirm" type="password" autocomplete="new-password" required minlength="12"></label>
+        <button class="btn btn-primary" type="submit">Change password</button>
+        <p id="password-msg" class="alert" hidden></p>
+      </form>
+    </section>
+
+    <!-- Logs -->
+    <section class="view" id="view-logs" hidden>
+      <div class="card">
+        <div class="editor-head">
+          <h2 class="nomargin">Logs</h2>
+          <span class="spacer"></span>
+          <select id="log-which" class="select-sm">
+            <option value="access">Access log</option>
+            <option value="error">Error log</option>
+          </select>
+          <select id="log-lines" class="select-sm">
+            <option value="100">100 lines</option>
+            <option value="200" selected>200 lines</option>
+            <option value="500">500 lines</option>
+            <option value="1000">1000 lines</option>
+          </select>
+          <button id="log-refresh" class="btn btn-sm" type="button">Refresh</button>
+        </div>
+        <pre id="log-output" class="logbox">Loading…</pre>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>

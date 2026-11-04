@@ -1,0 +1,14 @@
+* text=auto eol=lf
+
+# Windows refuses to parse a .bat with LF line endings reliably.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Plain-text instructions read on a Windows machine straight off the stick.
+usb/README-FIRST.txt text eol=crlf
+
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
